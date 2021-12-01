@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
+
 {% block title %} SIGN UP {% endblock %}
+
 {% block navbar %}
-<a class="nav-item nav-link" id="login" href="/login">Login</a>
-<a class="nav-item nav-link" id="signUp" href="/signUp">Signup</a>
+<a class="nav-item nav-link" id="home" href="/">Home</a>
+<a class="nav-item nav-link" id="login" href="/auth/login">Login</a>
+{% endblock %}
+
+{% block content %}
+
+<form actions="/auth/signup" method="POST">
+  <header>Sign Up</header>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter Username"/>
+    <label for="password">Password</label>
+    <input type="password" for="password" name="password" placeholder="Enter Password"/>
+    <label for="password-confirm">Confirm Password</label>
+    <input type="password" for="password-confirm" name="password-confirm" placeholder="Confirm Password"/>
+    <label for="email">Email</label>
+    <input type="email" for="email" name="email" placeholder="Enter Email"/>
+    <label for="name">Name</label>
+    <input type="text" for="name" name="name" placeholder="Enter Name"/>
+    <label for="account">Account</label>
+    <select name="account">
+      <option value="photographer">Photographer</option>
+      <option value="videographer">Videographer</option>
+      <option value="editor">Editr</option>
+      <option value="designer">Designer</option>
+    </select>
+    <label for="bio">Bio</label>
+    <input type="text" for="bio" name="bio" placeholder="Enter Bio"/>
+    <label for="location">Location</label>
+    <input type="text" for="location" name="location" placeholder="Enter City, State"/>
+    <input type="submit" name="submit" value="Sign Up"/>
+  </div>
+</form>
+
 {% endblock %}

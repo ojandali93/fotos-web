@@ -1,8 +1,13 @@
 from flask import Flask 
+from bson.objectid import ObjectId
+from pymongo import MongoClient
+
+client = MongoClient()
+db = client.Contractor 
 
 def create_app():
   app = Flask(__name__)
-  app.config['SECRET_KEY'] = 'eigeinsonriuosvnirosjvsoe'
+  app.config['SECRET_KEY'] = 'eigeinsonriuosvnirosjvsoe' 
 
   from .views import views
   from .auth import auth

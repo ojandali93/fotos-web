@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block title %} HOME {% endblock %}
 {% block navbar %}
-<a class="nav-item nav-link" id="login" href="/login">Login</a>
-<a class="nav-item nav-link" id="signUp" href="/signUp">Signup</a>
-<a class="nav-item nav-link" id="home" href="/home">Home</a>
+  {% if loggedInUser == null %}
+    <a class="nav-item nav-link" id="home" href="/">Home</a>
+    <a class="nav-item nav-link" id="login" href="/auth/login">Login</a>
+    <a class="nav-item nav-link" id="signUp" href="/auth/signup">Signup</a>
+    <a class="nav-item nav-link" id="admin" href="/auth/admin">Admin</a>
+  {% else %}
+    <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+    <a class="nav-item nav-link" id="activity" href="/">Activity</a>
+    <a class="nav-item nav-link" id="photos" href="/">Photos</a>
+    <a class="nav-item nav-link" id="edits" href="/">Edits</a>
+    <a class="nav-item nav-link" id="profile" href="/">Profile</a>
+  {% endif %}
 {% endblock %}
