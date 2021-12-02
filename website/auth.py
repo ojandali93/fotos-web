@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user, login_required, logout_user, current_user
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -8,7 +10,18 @@ auth = Blueprint('auth', __name__)
 def login():
   if request.method == 'POST':
     data = request.form
-    print(data)
+    username = data.get('username')
+    password = data.get('password')
+    checked_user = db.users.find_one({'username' : username})
+    print(checked_user)
+    if checked_user:
+      if check_password_hash(checked_user['password'], password):
+        flash('Logged in successfully.', category='success')
+        login_user(checked_user, remember=True)
+      else:
+        flash('Incorrect password. Try again.', category='error')
+    else:
+      flash('Email does not exist in our records.', category='error')
   return render_template('login.html')
 
 @auth.route('/signup', methods=['GET', 'POST'])
@@ -22,12 +35,20 @@ def signup():
     print(password)
     password_confirm = data.get('password-confirm')
     print(password_confirm)
+    email = data.get('email')
     name = data.get('name')
     account = data.get('account')
     location = data.get('location')
     bio = data.get('bio') 
 
-    if len(username) < 6 or len(username) > 14:
+    check_username = db.users.find_one({'username' : username})
+    check_email = db.users.find_one({'email' : email})
+
+    if check_username:
+      flash('username already exists', category='error')
+    elif check_email: 
+      flash('Email already exists.', category='error')
+    elif len(username) < 6 or len(username) > 14:
       flash('username must be between 6 & 14 charactors.', category='error')
     elif len(password) < 6 or len(password) > 14:
       flash('passwird must be between 6 & 14 charactors.', category='error')
@@ -36,9 +57,11 @@ def signup():
     elif len(name) < 4:
       flash('name must be greater than 4 charactors.', category='error')
     else: 
+      hashed_password = generate_password_hash(password, method='sha256')
       new_user = {
         'username': username,
-        'password': password,
+        'password': hashed_password,
+        'email': email,
         'name': name,
         'account': account,
         'location': location,
@@ -51,17 +74,20 @@ def signup():
       }
 
       db.users.insert_one(new_user)
+      current_user = db.users.find_one({'username' : username})
       print(new_user)
-      loggedInUser = new_user['username']
       flash('Account has been created.', category='success')
+      login_user(current_user, remember=True)
 
-      return redirect(url_for('views.home', loggedInUser=loggedInUser))
+      return redirect(url_for('views.home'))
 
   return render_template('signup.html')
 
 @auth.route('/logout')
+@login_required
 def logout():
-  return "<h1> logout </h1>"
+  logout_user()
+  return redirect(url_for('auth.login'))
 
 @auth.route('/admin')
 def admin_home():
