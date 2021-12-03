@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} UPDATE PROFILE {% endblock %}
+
+{% block navbar %}
+  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+  <a class="nav-item nav-link" id="activity" href="/">Activity</a>
+  <a class="nav-item nav-link" id="photos" href="/">Photos</a>
+  <a class="nav-item nav-link" id="edits" href="/">Edits</a>
+  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+{% endblock %}
+
+{% block content %}
+
+<form actions="/auth/signup" method="POST">
+  <header>UPDATE PROFILE </header>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value={{ loggedInUser.username }}/>
+    <label for="current-password">Current Password</label>
+    <input type="password" for="password" name="current-password" defaultValue="Enter Current Password"/>
+    <label for="new-password">New Password</label>
+    <input type="password" for="password" name="new-password" defaultValue="Enter New Password"/>
+    <label for="password-confirm">Confirm Password</label>
+    <input type="password" for="password-confirm" name="password-confirm" defaultValue="Confirm Password"/>
+    <label for="email">Email</label>
+    <input type="email" for="email" name="email" value={{ loggedInUser.email }}/>
+    <label for="name">Name</label>
+    <input type="text" for="name" name="name" value={{ loggedInUser.name }}/>
+    <label for="account">Account</label>
+    <select name="account">
+      <option value="photographer">Photographer</option>
+      <option value="videographer">Videographer</option>
+      <option value="editor">Editr</option>
+      <option value="designer">Designer</option>
+    </select>
+    <label for="bio">Bio</label>
+    <input type="text" for="bio" name="bio" value={{ loggedInUser.bio }}/>
+    <label for="location">Location</label>
+    <input type="text" for="location" name="location" value={{ loggedInUser.location }}/>
+    <input type="submit" name="submit" value="Update Profile"/>
+  </div>
+</form>
+
+{% endblock %}

@@ -20,7 +20,6 @@ def login():
       username = data.get('username')
       password = data.get('password')
       checked_user = db.users.find_one({'username' : username})
-      print(checked_user)
       if checked_user:
         if check_password_hash(checked_user['password'], password):
           flash('Logged in successfully.', category='success')
@@ -31,7 +30,7 @@ def login():
       else:
         flash('Email does not exist in our records.', category='error')
 
-  return render_template('login.html')
+    return render_template('login.html')
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -85,6 +84,10 @@ def signup():
           'photo_count': 0,
           'edit_list':[],
           'edit_count': 0,
+          'followers': [],
+          'follower_count': 0,
+          'following': [],
+          'follwering_count': 0,
           'created_at': datetime.now()
         }
 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} PROFILE {% endblock %}
+
+{% block navbar %}
+  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+  <a class="nav-item nav-link" id="activity" href="/">Activity</a>
+  <a class="nav-item nav-link" id="photos" href="/">Photos</a>
+  <a class="nav-item nav-link" id="edits" href="/">Edits</a>
+  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+{% endblock %}
+
+{% block content %}
+
+<p>{{ loggedInUser.profile_pic }}</p>
+<h1>{{ loggedInUser.username }}</h1>
+<p>{{ loggedInUser.following }}</p>
+<p>{{ loggedInUser.followers }}</p>
+<p>{{ loggedInUser.email }}</p>
+<p>{{ loggedInUser.name }}</p>
+<p>{{ loggedInUser.location }}</p>
+<p>{{ loggedInUser.bio }}</p>
+<p>{{ loggedInUser.photo_list }}</p>
+<p>{{ loggedInUser.edit_list }}</p>
+
+<a class="nav-item nav-link" id="update_profile" href={{ url_for('views.profile_update') }}>Edit Profile</a>
+
+{% endblock %}
