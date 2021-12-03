@@ -1,10 +1,14 @@
-from flask import Blueprint, render_template
-from flask_login import login_user, login_required, logout_user, current_user
+from flask import Blueprint, render_template, session, redirect, url_for
 from . import db
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
-@login_required
 def home():
+
+  if 'username' in session:
+    username = session['username']
+  else:
+    return redirect(url_for('auth.login'))
+
   return render_template('home.html')
