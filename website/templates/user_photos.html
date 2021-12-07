@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} HOME {% endblock %}
+
+{% block navbar %}
+  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+  <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
+  <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
+  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+{% endblock %}
+
+{% block content %}
+<div>
+  <a href={{ url_for('post.create_post') }}>Upload Photo</a>
+</div>
+<div>
+  {% for photo in all_photos %}
+    <div>
+      <a>
+        <img src={{ url_for('static', filename=photo.image_name ) }}/>
+      </a>
+      <p>{{ photo.image_name }}</p>
+      <p>{{ photo.caption }}</p>
+      <p>{{ photo.location }}</p>
+      <a href={{ url_for( 'post.download_photo', photo_id=photo._id )}}>Download</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

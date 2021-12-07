@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Post {% endblock %}
+
+{% block navbar %}
+  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+  <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
+  <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
+  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+{% endblock %}
+
+{% block content %}
+
+<form actions="/post/upload" enctype="multipart/form-data" method="POST">
+  <header>Create Post</header>
+  <div class="form-group">
+    <label for="photo">Photo</label>
+    <input type="file" id="photo" name="photo" placeholder="Upload Photo"/>
+    <label for="caption">Caption</label>
+    <input type="text" for="caption" name="caption" placeholder="Photo Caption"/>
+    <label for="location">Location</label>
+    <input type="text" for="location" name="location" placeholder="Enter Location"/>
+    <label for="email">Email</label>
+    <input type="submit" name="submit" value="Create Post"/>
+  </div>
+</form>
+
+{% endblock %}

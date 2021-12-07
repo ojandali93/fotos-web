@@ -10,7 +10,9 @@
 {% block content %}
 
 {% for user in all_users %}
-  {{ user.username }}
+  <p>{{ user.username }}</p>
+  <p>{{ user.photo_list }}</p>
+  <p>{{ user.edit_list }}</p>
 {% endfor %}
 
 {% endblock %}

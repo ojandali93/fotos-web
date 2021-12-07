@@ -35,7 +35,7 @@ def login():
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
 
-  if 'user' in session:
+  if 'username' in session:
 
     return redirect(url_for('views.hom'))
 
@@ -82,6 +82,8 @@ def signup():
           'bio': bio,
           'photo_list': [],
           'photo_count': 0,
+          'downloads': [],
+          'downloads_count': 0,
           'edit_list':[],
           'edit_count': 0,
           'followers': [],
