@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from . import db
+from bson.objectid import ObjectId
 
 views = Blueprint('views', __name__)
 
@@ -11,15 +12,11 @@ def home():
     feed = []
     current_user_following = current_user['following']
     for follower in current_user_following:
-      follower_photos = follower['photo_list']
-      for photo in follower_photos:
+      following_photos = follower['photo_list']
+      for photo in following_photos:
         feed.append(photo)
-      follower_edits = follower['edit_list']
-      for photo in follower_edits:
-        feed.append(photo)
-    feed.sort(key=sortFeed)
-    feed.sort(reverse=True)
-    return render_template('home.html', feed=feed)
+        print(feed)
+    return render_template('user_feed.html', feed=feed)
   else:
     return redirect(url_for('auth.login'))
 
@@ -66,6 +63,28 @@ def user_edits():
   else:
     return redirect(url_for('auth.login'))
 
+@views.route('/search', methods=['GET', 'POST'])
+def search():
+  if 'username' in session:
+    if request.method == 'POST':
+      data = request.form
+      search_term = data.get('search')
+      search_results = db.users.find({'username' : {'$regex' : search_term}})
+      return render_template('user_search.html', search_results=search_results)
+    else:
+      return render_template('search.html')
+  else:
+    return redirect(url_for('auth.login'))
+
+@views.route('/follow/<user_id>', methods=['GET'])
+def follow_user(user_id):
+  if 'username' in session:
+    following_user = db.users.find_one({'_id': ObjectId(user_id)})
+    db.users.update({ 'username' : session['username']}, {'$push': {'following': following_user}})
+    db.users.update({ 'username' : session['username']}, {'$inc': {'follwering_count': 1}})
+    return redirect(url_for('views.home'))
+  else:
+    return redirect(url_for('auth.login'))
 
 def sortFeed(e):
   return e['created_at']

@@ -6,6 +6,7 @@
   <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
   <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
   <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="search" href="/search">Search</a>
   <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
 {% endblock %}
 
@@ -22,7 +23,6 @@
       <p>{{ photo.image_name }}</p>
       <p>{{ photo.caption }}</p>
       <p>{{ photo.location }}</p>
-      <a href={{ url_for( 'post.download_photo', photo_id=photo._id )}}>Download</a>
     </div>
   {% endfor %}
 </div>

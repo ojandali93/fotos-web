@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-{% block title %} PROFILE {% endblock %}
+{% block title %} HOME {% endblock %}
 
 {% block navbar %}
   <a class="nav-item nav-link" id="feed" href="/">Feed</a>
@@ -12,18 +11,12 @@
 {% endblock %}
 
 {% block content %}
-
-<p>{{ loggedInUser.profile_pic }}</p>
-<h1>{{ loggedInUser.username }}</h1>
-<p>{{ loggedInUser.following }}</p>
-<p>{{ loggedInUser.followers }}</p>
-<p>{{ loggedInUser.email }}</p>
-<p>{{ loggedInUser.name }}</p>
-<p>{{ loggedInUser.location }}</p>
-<p>{{ loggedInUser.bio }}</p>
-<p>{{ loggedInUser.photo_list }}</p>
-<p>{{ loggedInUser.edit_list }}</p>
-
-<a class="nav-item nav-link" id="update_profile" href={{ url_for('views.profile_update') }}>Edit Profile</a>
-
+  {% for user in search_results %}
+    <div>
+      <p>{{ user.username }}</p>
+      <p>{{ user.email }}</p>
+      <p>{{ user.bio }}</p>
+      <a href={{ url_for('views.follow_user', user_id=user._id) }}>Follow</a>
+    </div>
+  {% endfor %}
 {% endblock %}
