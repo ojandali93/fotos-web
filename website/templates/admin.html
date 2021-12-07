@@ -12,7 +12,11 @@
 {% for user in all_users %}
   <p>{{ user.username }}</p>
   <p>{{ user.photo_list }}</p>
+  <p>{{ user.photo_count }}</p>
+  <p>{{ user.downloads }}</p>
+  <p>{{ user.downloads_count }}</p>
   <p>{{ user.edit_list }}</p>
+  <p>{{ user.edit_count }}</p>
 {% endfor %}
 
 {% endblock %}

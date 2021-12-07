@@ -13,12 +13,26 @@ post = Blueprint('post', __name__)
 def download_photo(photo_id):
   if 'username' in session:
     current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
+    user_by_username = db.users.find_one({'username' : session['username']})
+    print(user_by_username)
     image_name = current_photo['image_name'].replace(' ', '_')
     download_file_name = 'static/' + image_name
+    db.users.update({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
+    db.users.update({ 'username' : session['username']}, {'$inc': {'downloads_count': 1}})
+    db.posts.update({'_id' : ObjectId(photo_id)}, {'$push': {'downloaded_by': session['username']}})
     return send_file(download_file_name, as_attachment=True)
   else:
     return redirect(url_for('auth.login'))
 
+@post.route('/delete/<photo_id>', methods=['POST'])
+def delete_photo(photo_id):
+  if 'username' in session:
+    current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
+    if current_photo:
+      db.posts.delete_one({'_id': ObjectId(photo_id)})
+      return redirect(url_for('views.user_photos'))
+  else:
+    return redirect(url_for('auth.login'))
 
 @post.route('/upload', methods=['GET', 'POST'])
 def create_post():
@@ -38,7 +52,7 @@ def create_post():
         'author': session['username'],
         'is_original': True,
         'original': {},
-        'downloaded': [],
+        'downloaded_by': [],
         'edits': [],
         'likes': [],
         'comments': [],
@@ -49,10 +63,10 @@ def create_post():
         'created_at': datetime.now()
       }
       db.posts.insert_one(new_post)
-      current_user['photo_list'].append(new_post)
-      current_user['photo_count'] += 1
+      db.users.update_one({ 'username' : session['username']}, {'$push': {'photo_list': new_post}})
+      db.users.update_one({ 'username' : session['username']}, {'$inc': {'photo_count': 1}})
       flash('New post was created!', category='success')
-      return redirect(url_for('post.all_posts'))
+      return redirect(url_for('views.user_photos'))
     return render_template('create_post.html')
   else:
     return redirect(url_for('auth.login'))

@@ -15,12 +15,24 @@ def download_photo(photo_id):
     current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
     image_name = current_photo['image_name'].replace(' ', '_')
     download_file_name = 'static/' + image_name
+    db.users.update_one({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
+    db.users.update_one({ 'username' : session['username']}, {'$inc': {'downloads_count': 1}})
     return send_file(download_file_name, as_attachment=True)
   else:
     return redirect(url_for('auth.login'))
 
+@edit.route('/delete/<photo_id>', methods=['POST'])
+def delete_edit(photo_id):
+  if 'username' in session:
+    current_photo = db.post.find_one({'_id': ObjectId(photo_id)})
+    if current_photo:
+      db.posts.delete_one({'_id': ObjectId(photo_id)})
+      return redirect(url_for('views.user_edits'))
+  else:
+    return redirect(url_for('auth.login'))
+
 @edit.route('/upload', methods=['GET', 'POST'])
-def create_post():
+def create_edit():
   if 'username' in session:
     current_user = db.users.find_one({ 'username' : session['username']})
     if request.method == 'POST':
@@ -35,9 +47,9 @@ def create_post():
         'caption': caption, 
         'location': location,
         'author': session['username'],
-        'is_original': True,
+        'is_original': False,
         'original': {},
-        'downloaded': [],
+        'downloaded_by': [],
         'edits': [],
         'likes': [],
         'comments': [],
@@ -48,10 +60,11 @@ def create_post():
         'created_at': datetime.now()
       }
       db.posts.insert_one(new_post)
-      current_user['photo_list'].append(new_post)
-      current_user['photo_count'] += 1
+      db.users.update_one({ 'username' : session['username']}, {'$push': {'edit_list': new_post}})
+      db.users.update_one({ 'username' : session['username']}, {'$inc': {'edit_count': 1}})
       flash('New post was created!', category='success')
       return redirect(url_for('post.all_posts'))
-    return render_template('create_post.html')
+    downloaded_images = current_user['downloaded']
+    return render_template('create_post.html', downloaded_images=downloaded_images)
   else:
     return redirect(url_for('auth.login'))
