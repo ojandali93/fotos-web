@@ -31,14 +31,18 @@ def delete_edit(photo_id):
   else:
     return redirect(url_for('auth.login'))
 
-@edit.route('/upload', methods=['GET', 'POST'])
-def create_edit():
+@edit.route('/upload/<original_id>', methods=['GET', 'POST'])
+def create_edit(original_id):
   if 'username' in session:
     current_user = db.users.find_one({ 'username' : session['username']})
     if request.method == 'POST':
       data = request.form 
+      origin = data.get('original')
+      original = origin[:-1]
+      print(original)
+      original_photo = db.posts.find_one({'_id' : ObjectId(original)})
+      print(original_photo)
       photo = request.files['photo']
-      print(photo)
       photo.save(path.join(app.config['UPLOAD_FOLDER'], secure_filename(photo.filename)))
       caption = data.get('caption')
       location = data.get('location')
@@ -48,7 +52,7 @@ def create_edit():
         'location': location,
         'author': session['username'],
         'is_original': False,
-        'original': {},
+        'original': original_photo,
         'downloaded_by': [],
         'edits': [],
         'likes': [],
@@ -62,9 +66,11 @@ def create_edit():
       db.posts.insert_one(new_post)
       db.users.update_one({ 'username' : session['username']}, {'$push': {'edit_list': new_post}})
       db.users.update_one({ 'username' : session['username']}, {'$inc': {'edit_count': 1}})
+      db.posts.update_one({'_id' : ObjectId(original)}, {'$push': {'edit_list': new_post}})
+      db.posts.update_one({'_id' : ObjectId(original)}, {'$inc': {'edit_count': 1}})
       flash('New post was created!', category='success')
-      return redirect(url_for('post.all_posts'))
-    downloaded_images = current_user['downloaded']
-    return render_template('create_post.html', downloaded_images=downloaded_images)
+      return redirect(url_for('views.user_edits'))
+    original_post = db.posts.find_one({'_id' : ObjectId(original_id)})
+    return render_template('create_edit.html', original_post=original_post)
   else:
     return redirect(url_for('auth.login'))

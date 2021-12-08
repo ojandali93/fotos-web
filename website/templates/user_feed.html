@@ -21,6 +21,7 @@
       <p>{{ photo.caption }}</p>
       <p>{{ photo.location }}</p>
       <a href={{ url_for( 'post.download_photo', photo_id=photo._id )}}>Download</a>
+      <a href={{ url_for( 'edit.create_edit', original_id=photo._id )}}>Upload Edit</a>
     </div>
   {% endfor %}
 </div>

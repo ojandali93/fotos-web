@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Create Post {% endblock %}
+
+{% block navbar %}
+  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
+  <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
+  <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
+  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
+  <a class="nav-item nav-link" id="search" href="/search">Search</a>
+  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+{% endblock %}
+
+{% block content %}
+
+<form actions="/post/upload" enctype="multipart/form-data" method="POST">
+  <header>Create Edit</header>
+  <div class="form-group">
+    <label for="photo">Edit</label>
+    <input type="file" id="photo" name="photo" placeholder="Upload Photo"/>
+    <label for="caption">Caption</label>
+    <input type="text" for="caption" name="caption" placeholder="Photo Caption"/>
+    <label for="location">Location</label>
+    <input type="text" for="location" name="location" placeholder="Enter Location"/>
+    <input type="hidden" name="original" value={{original_post._id}}/>
+    <input type="submit" name="submit" value="Create Post"/>
+  </div>
+</form>
+
+<div>
+  <a>
+    <img src={{ url_for('static', filename=original_post.image_name ) }}/>
+  </a>
+  <p>{{ original_post.caption }}</p>
+  <p>{{ original_post.location }}</p>
+</div>
+
+{% endblock %}

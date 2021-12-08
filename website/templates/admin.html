@@ -19,6 +19,14 @@
   <p>{{ user.edit_count }}</p>
   <p>{{ user.following }}</p>
   <p>{{ user.follwering_count }}</p>
+  <a href={{ url_for('auth.delete_user', user_id=user._id )}}>DELETE USER</a>
+{% endfor %}
+
+{% for post in all_posts %}
+  <p>{{ post.image_name }}</p>
+  <p>{{ post.caption }}</p>
+  <p>{{ post.location }}</p>
+  <a href={{ url_for('auth.delete_post', post_id=post._id )}}>DELETE POST</a>
 {% endfor %}
 
 {% endblock %}

@@ -8,13 +8,9 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-
   if 'username' in session:
-
     return redirect(url_for('views.home'))
-
   else:
-
     if request.method == 'POST':
       data = request.form
       username = data.get('username')
@@ -29,20 +25,14 @@ def login():
           flash('Incorrect password. Try again.', category='error')
       else:
         flash('Email does not exist in our records.', category='error')
-
     return render_template('login.html')
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-
   if 'username' in session:
-
     return redirect(url_for('views.hom'))
-
   else:
-
     if request.method == 'POST':
-
       data = request.form
       username = data.get('username')
       password = data.get('password')
@@ -54,10 +44,8 @@ def signup():
       account = data.get('account')
       location = data.get('location')
       bio = data.get('bio') 
-
       check_username = db.users.find_one({'username' : username})
       check_email = db.users.find_one({'email' : email})
-
       if check_username:
         flash('username already exists', category='error')
       elif check_email: 
@@ -92,27 +80,31 @@ def signup():
           'follwering_count': 0,
           'created_at': datetime.now()
         }
-
         db.users.insert_one(new_user)
         current_user = db.users.find_one({'username' : username})
         flash('Account has been created.', category='success')
         session['username'] = username
-
         return redirect(url_for('views.home'))
-
   return render_template('signup.html')
 
 @auth.route('/logout')
 def logout():
-
   if 'username' in session:
     session.pop('username', None)
-
   return redirect(url_for('auth.login'))
+
+@auth.route('/admin/delete/user/<user_id>')
+def delete_user(user_id):
+  db.users.remove({'_id' : ObjectId(user_id)})
+  return redirect(url_for('auth.admin_home'))
+  
+@auth.route('/admin/delete/post/<post_id>')
+def delete_post(post_id):
+  db.posts.remove({'_id' : ObjectId(post_id)})
+  return redirect(url_for('auth.admin_home'))
 
 @auth.route('/admin')
 def admin_home():
-
   all_users = db.users.find()
-
-  return render_template('admin.html', all_users=all_users)
+  all_posts = db.posts.find()
+  return render_template('admin.html', all_users=all_users, all_posts=all_posts)
