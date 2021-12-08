@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-{% block title %} PROFILE {% endblock %}
+{% block title %} HOME {% endblock %}
 
 {% block navbar %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,18 +32,17 @@
 {% endblock %}
 
 {% block content %}
-
-<p>{{ loggedInUser.profile_pic }}</p>
-<h1>{{ loggedInUser.username }}</h1>
-<p>{{ loggedInUser.following }}</p>
-<p>{{ loggedInUser.followers }}</p>
-<p>{{ loggedInUser.email }}</p>
-<p>{{ loggedInUser.name }}</p>
-<p>{{ loggedInUser.location }}</p>
-<p>{{ loggedInUser.bio }}</p>
-<p>{{ loggedInUser.photo_list }}</p>
-<p>{{ loggedInUser.edit_list }}</p>
-
-<a class="nav-item nav-link" id="update_profile" href={{ url_for('views.profile_update') }}>Edit Profile</a>
-
+<div>
+  {% for photo in all_downloads %}
+    <div>
+      <a>
+        <img style="height: 250px;" src={{ url_for('static', filename=photo.filename ) }}/>
+      </a>
+      <p>{{ photo.image_name }}</p>
+      <p>{{ photo.caption }}</p>
+      <p>{{ photo.location }}</p>
+      <a href={{ url_for( 'edit.create_edit', original_id=photo._id )}}><button type="button" class="btn btn-secondary">SUBMIT EDIT</button></a>
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}

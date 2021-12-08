@@ -3,33 +3,64 @@
 {% block title %} Create Post {% endblock %}
 
 {% block navbar %}
-  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
-  <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
-  <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
-  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
-  <a class="nav-item nav-link" id="search" href="/search">Search</a>
-  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">FEED</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/photos">PHOTOS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/edits">EDITS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/downloads">DOWNLOADS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/search">SEARCH</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">PROFILE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/logout">LOGOUT</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 {% endblock %}
 
 {% block content %}
 
-<form actions="/post/upload" enctype="multipart/form-data" method="POST">
-  <header>Create Edit</header>
+<form actions="/edit/upload" enctype="multipart/form-data" method="POST">
   <div class="form-group">
-    <label for="photo">Edit</label>
-    <input type="file" id="photo" name="photo" placeholder="Upload Photo"/>
-    <label for="caption">Caption</label>
-    <input type="text" for="caption" name="caption" placeholder="Photo Caption"/>
-    <label for="location">Location</label>
-    <input type="text" for="location" name="location" placeholder="Enter Location"/>
-    <input type="hidden" name="original" value={{original_post._id}}/>
-    <input type="submit" name="submit" value="Create Post"/>
+    <label>UPLOAD EDIT</label>
   </div>
+  <div class="form-group">
+    <label for="photo">PHOTO</label>
+    <input type="file" class="form-control" name="photo" id="photo" aria-describedby="photo" placeholder="Select Photo">
+    <small id="emailHelp" class="form-text text-muted">Max file size is 15MB.</small>
+  </div>
+  <div class="form-group">
+    <label for="image_name">TITLE</label>
+    <input type="text" class="form-control" name="image_name" id="image_name" placeholder="Enter Title">
+  </div>
+  <div class="form-group">
+    <label for="caption">CAPTION</label>
+    <input type="text" class="form-control" name="caption" id="caption" placeholder="Enter Caption">
+  </div>
+  <div class="form-group">
+    <label for="location">LOCATION</label>
+    <input type="text" class="form-control" name="location" id="location" placeholder="Enter Location">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <div>
   <a>
-    <img src={{ url_for('static', filename=original_post.image_name ) }}/>
+    <img style="height: 250px;" src={{ url_for('static', filename=original_post.filename ) }}/>
   </a>
   <p>{{ original_post.caption }}</p>
   <p>{{ original_post.location }}</p>

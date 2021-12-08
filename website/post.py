@@ -15,7 +15,7 @@ def download_photo(photo_id):
     current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
     user_by_username = db.users.find_one({'username' : session['username']})
     print(user_by_username)
-    image_name = current_photo['image_name'].replace(' ', '_')
+    image_name = current_photo['filename'].replace(' ', '_')
     download_file_name = 'static/' + image_name
     db.users.update({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
     db.users.update({ 'username' : session['username']}, {'$inc': {'downloads_count': 1}})
@@ -41,12 +41,13 @@ def create_post():
     if request.method == 'POST':
       data = request.form 
       photo = request.files['photo']
-      print(photo)
       photo.save(path.join(app.config['UPLOAD_FOLDER'], secure_filename(photo.filename)))
+      image_name = data.get('image_name')
       caption = data.get('caption')
       location = data.get('location')
       new_post = {
-        'image_name': photo.filename, 
+        'filename': photo.filename, 
+        'image_name': image_name,
         'caption': caption, 
         'location': location,
         'author': session['username'],

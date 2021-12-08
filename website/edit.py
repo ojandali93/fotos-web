@@ -13,7 +13,7 @@ edit = Blueprint('edit', __name__)
 def download_photo(photo_id):
   if 'username' in session:
     current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
-    image_name = current_photo['image_name'].replace(' ', '_')
+    image_name = current_photo['filename'].replace(' ', '_')
     download_file_name = 'static/' + image_name
     db.users.update_one({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
     db.users.update_one({ 'username' : session['username']}, {'$inc': {'downloads_count': 1}})
@@ -37,17 +37,17 @@ def create_edit(original_id):
     current_user = db.users.find_one({ 'username' : session['username']})
     if request.method == 'POST':
       data = request.form 
-      origin = data.get('original')
-      original = origin[:-1]
-      print(original)
+      original = data.get('original')
+      # original = origin[:-1]
       original_photo = db.posts.find_one({'_id' : ObjectId(original)})
-      print(original_photo)
       photo = request.files['photo']
       photo.save(path.join(app.config['UPLOAD_FOLDER'], secure_filename(photo.filename)))
+      image_name = data.get('image_name')
       caption = data.get('caption')
       location = data.get('location')
       new_post = {
-        'image_name': photo.filename, 
+        'filename': photo.filename, 
+        'image_name': image_name,
         'caption': caption, 
         'location': location,
         'author': session['username'],

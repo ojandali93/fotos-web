@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<form actions="/auth/signup" method="POST">
+<!-- <form actions="/auth/signup" method="POST">
   <header>Sign Up</header>
   <div class="form-group">
     <label for="username">Username</label>
@@ -34,6 +34,50 @@
     <input type="text" for="location" name="location" placeholder="Enter City, State"/>
     <input type="submit" name="submit" value="Sign Up"/>
   </div>
+</form> -->
+
+<form actions="/auth/signup" enctype="multipart/form-data" method="POST">
+  <div class="form-group">
+    <label>SIGNUP</label>
+  </div>
+  <div class="form-group">
+    <label for="username">USERNAME</label>
+    <input type="text" class="form-control" name="username" id="username" aria-describedby="username" placeholder="Enter Username">
+  </div>
+  <div class="form-group">
+    <label for="password">PASSWORD</label>
+    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
+  </div>
+  <div class="form-group">
+    <label for="password_confirm">CONFIRM PASSWORD</label>
+    <input type="password" class="form-control" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
+  </div>
+  <div class="form-group">
+    <label for="email">EMAIL</label>
+    <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email">
+  </div>
+  <div class="form-group">
+    <label for="name">NAME</label>
+    <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name">
+  </div>
+  <div class="form-group">
+    <label for="bio">BIO</label>
+    <input type="text" class="form-control" name="bio" id="bio" placeholder="Enter Bio">
+  </div>
+  <div class="form-group">
+    <label for="location">LOCATION</label>
+    <input type="text" class="form-control" name="location" id="location" placeholder="Enter Location">
+  </div>
+  <div class="form-group">
+    <label for="account">ACCOUNT TYPE</label>
+    <select id="account" class="form-control">
+      <option value="photographer" selected>PHOTOGRAPHER</option>
+      <option value="videographer" >VIDEOGRAPHER</option>
+      <option value="editor" >EDITOR</option>
+      <option value="designer" >DESIGNER</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 {% endblock %}

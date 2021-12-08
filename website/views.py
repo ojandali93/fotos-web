@@ -59,7 +59,18 @@ def user_photos():
 def user_edits():
   if 'username' in session:
     all_edits = db.posts.find({'author': session['username'], 'is_original': False})
+    print(all_edits)
     return render_template('user_edits.html', all_edits=all_edits)
+  else:
+    return redirect(url_for('auth.login'))
+
+@views.route('/downloads', methods=['GET'])
+def user_downloads():
+  if 'username' in session:
+    current_user = db.users.find_one({'username': session['username']})
+    all_downloads = current_user['downloads']
+    print(all_downloads)
+    return render_template('user_downloads.html', all_downloads=all_downloads)
   else:
     return redirect(url_for('auth.login'))
 

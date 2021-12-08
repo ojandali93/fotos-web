@@ -3,24 +3,43 @@
 {% block title %} Create Post {% endblock %}
 
 {% block navbar %}
-  <a class="nav-item nav-link" id="feed" href="/">Feed</a>
-  <a class="nav-item nav-link" id="photos" href="/photos">Photos</a>
-  <a class="nav-item nav-link" id="edits" href="/edits">Edits</a>
-  <a class="nav-item nav-link" id="profile" href="/profile">Profile</a>
-  <a class="nav-item nav-link" id="search" href="/search">Search</a>
-  <a class="nav-item nav-link" id="logout" href="/auth/logout">Logout</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">FEED</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/photos">PHOTOS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/edits">EDITS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/downloads">DOWNLOADS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/search">SEARCH</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">PROFILE</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/auth/logout">LOGOUT</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 {% endblock %}
 
 {% block content %}
 
-<div>
-  <form actions="/search" method="POST">
-    <div class="form-group">
-      <label for="search">Search:</label>
-      <input type="text" for="search" name="search" placeholder="Search Username"/>
-      <input type="submit" name="submit" value="Search"/>
-    </div>
-  </form>
-</div>
+<form actions="/search" method="POST">
+  <div class="form-group">
+    <label for="search">SEARCH</label>
+    <input type="text" class="form-control" name="search" id="search" aria-describedby="search" placeholder="Search Username">
+  </div>
+  <button type="submit" class="btn btn-primary">SEARCH</button>
+</form>
 
 {% endblock %}

@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'eigeinsonriuosvnirosjvsoe'
 upload_folder = 'website/static/'
 if not path.exists(upload_folder):
   mkdir(upload_folder)
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 25 * 1024 * 1024
 app.config['UPLOAD_FOLDER'] = upload_folder
 
 from .views import views

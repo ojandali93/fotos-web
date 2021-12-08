@@ -37,7 +37,7 @@ def signup():
       username = data.get('username')
       password = data.get('password')
       print(password)
-      password_confirm = data.get('password-confirm')
+      password_confirm = data.get('password_confirm')
       print(password_confirm)
       email = data.get('email')
       name = data.get('name')
