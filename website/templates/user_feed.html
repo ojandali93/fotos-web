@@ -35,9 +35,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="row pt-12">
+<div class="row">
   {% for photo in feed %}
-    <div class="col-4">
+    <div class="col-4 pt-24">
       <div class="card p-8">
         <a></a>
           <img src={{ url_for('static', filename='images/' + photo.filename ) }}/>
