@@ -7,7 +7,7 @@ db = client.Contractor
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SECRET_KEY'] = 'eigeinsonriuosvnirosjvsoe' 
-upload_folder = 'website/static/'
+upload_folder = 'website/static/images/'
 if not path.exists(upload_folder):
   mkdir(upload_folder)
 app.config['MAX_CONTENT_LENGTH'] = 25 * 1024 * 1024
