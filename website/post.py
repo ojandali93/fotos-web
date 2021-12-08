@@ -16,7 +16,7 @@ def download_photo(photo_id):
     user_by_username = db.users.find_one({'username' : session['username']})
     print(user_by_username)
     image_name = current_photo['filename'].replace(' ', '_')
-    download_file_name = 'static/' + image_name
+    download_file_name = 'static/images/' + image_name
     db.users.update({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
     db.users.update({ 'username' : session['username']}, {'$inc': {'downloads_count': 1}})
     db.posts.update({'_id' : ObjectId(photo_id)}, {'$push': {'downloaded_by': session['username']}})

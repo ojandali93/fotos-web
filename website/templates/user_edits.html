@@ -5,6 +5,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/"><img style="height: 24px;" src={{ url_for('static', filename='images/fotos-logo.png' ) }}/></a>
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="/">FEED</a>
       </li>
@@ -32,18 +35,34 @@
 {% endblock %}
 
 {% block content %}
-<div>
+<div class="row pt-12">
   {% for photo in all_edits %}
-    <div>
-      <a>
-        <img style="height: 250px;" src={{ url_for('static', filename=photo.filename ) }}/>
+  <div class="col-4">
+    <div class="card p-8">
+      <a></a>
+        <img src={{ url_for('static', filename='images/' + photo.filename ) }}/>
       </a>
-      <p>{{ photo.image_name }}</p>
-      <p>{{ photo.caption }}</p>
-      <p>{{ photo.location }}</p>
-      <p>{{ photo.original.image_name }}</p>
-      <!-- <a href={{ url_for( 'post.download_photo', photo_id=photo._id )}}>Download</a> -->
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <p style="padding-top: 8px;">@{{ photo.author }}</p>
+        </div>
+        <div style="display:flex; align-items: center;">
+          <div style="display:flex; align-items: center; padding-left: 4px;">
+            <img style="height: 18px;" src={{ url_for('static', filename='images/clone.svg' ) }}/>
+            <span style="padding-left: 4px;">2</span>
+          </div>
+          <div style="display:flex; align-items: center; padding-left: 4px;">
+            <img style="height: 18px;" src={{ url_for('static', filename='images/like.svg' ) }}/>
+            <span style="padding-left: 4px;">47</span>
+          </div>
+          <div style="display:flex; align-items: center; padding-left: 4px;">
+            <img style="height: 18px;" src={{ url_for('static', filename='images/comment.svg' ) }}/>
+            <span style="padding-left: 4px;">12</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   {% endfor %}
 </div>
 {% endblock %}

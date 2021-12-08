@@ -16,6 +16,9 @@ def home():
       for photo in following_photos:
         feed.append(photo)
         print(feed)
+      following_edits = follower['edit_list']
+      for photo in following_edits:
+        feed.append(photo)
     return render_template('user_feed.html', feed=feed)
   else:
     return redirect(url_for('auth.login'))
