@@ -24,6 +24,9 @@ def download_photo(photo_id):
   else:
     return redirect(url_for('auth.login'))
 
+# @post.route('/like/<photo_id>', methods=['GET'])
+# def like_post(photo_id)
+
 @post.route('/delete/<photo_id>', methods=['POST'])
 def delete_photo(photo_id):
   if 'username' in session:
