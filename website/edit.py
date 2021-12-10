@@ -67,7 +67,7 @@ def create_edit(original_id):
       db.users.update_one({ 'username' : session['username']}, {'$push': {'edit_list': new_post}})
       db.users.update_one({ 'username' : session['username']}, {'$inc': {'edit_count': 1}})
       db.posts.update_one({'_id' : ObjectId(original)}, {'$push': {'edit_list': new_post}})
-      db.posts.update_one({'_id' : ObjectId(original)}, {'$inc': {'edit_count': 1}})
+      db.posts.update_one({'_id' : ObjectId(original)}, {'$inc': {'edits_count': 1}})
       flash('New post was created!', category='success')
       return redirect(url_for('views.user_edits'))
     original_post = db.posts.find_one({'_id' : ObjectId(original_id)})

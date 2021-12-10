@@ -1,0 +1,25 @@
+.pt-12 {
+  padding-top: 12px;
+}
+
+.pt-24 {
+  padding-top: 24px;
+}
+
+.pt-16 {
+  padding-top: 16px;
+}
+
+.p-8 {
+  padding: 8px;
+}
+
+.pt-4 {
+  margin-top: 2px;
+}
+
+.fb-c-db {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

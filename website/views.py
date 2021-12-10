@@ -15,10 +15,10 @@ def home():
       following_photos = follower['photo_list']
       for photo in following_photos:
         feed.insert(0,photo)
-        print(feed)
       following_edits = follower['edit_list']
       for photo in following_edits:
         feed.insert(0,photo)
+    print(feed)
     return render_template('user_feed.html', feed=feed)
   else:
     return redirect(url_for('auth.login'))
@@ -26,8 +26,6 @@ def home():
 @views.route('/profile', methods=(['GET']))
 def profile():
   if 'username' in session:
-    print('profile page')
-    print(session['username'])
     loggedInUser = db.users.find_one({'username': session['username']})
     return render_template('profile.html', loggedInUser=loggedInUser)
   else:
@@ -42,7 +40,6 @@ def profile():
 def profile_update():
   if 'username' in session:
     loggedInUser = db.users.find_one({'username': session['username']})
-    print(loggedInUser)
     if request.method == 'POST':
       pass
     else:
@@ -62,7 +59,6 @@ def user_photos():
 def user_edits():
   if 'username' in session:
     all_edits = db.posts.find({'author': session['username'], 'is_original': False})
-    print(all_edits)
     return render_template('user_edits.html', all_edits=all_edits)
   else:
     return redirect(url_for('auth.login'))
@@ -72,7 +68,6 @@ def user_downloads():
   if 'username' in session:
     current_user = db.users.find_one({'username': session['username']})
     all_downloads = current_user['downloads']
-    print(all_downloads)
     return render_template('user_downloads.html', all_downloads=all_downloads)
   else:
     return redirect(url_for('auth.login'))

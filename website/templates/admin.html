@@ -26,6 +26,7 @@
   <p>{{ post.image_name }}</p>
   <p>{{ post.caption }}</p>
   <p>{{ post.location }}</p>
+  <p>{{ post.likes_count }}</p>
   <a href={{ url_for('auth.delete_post', post_id=post._id )}}>DELETE POST</a>
 {% endfor %}
 

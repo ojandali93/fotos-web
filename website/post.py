@@ -14,7 +14,6 @@ def download_photo(photo_id):
   if 'username' in session:
     current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
     user_by_username = db.users.find_one({'username' : session['username']})
-    print(user_by_username)
     image_name = current_photo['filename'].replace(' ', '_')
     download_file_name = 'static/images/' + image_name
     db.users.update({ 'username' : session['username']}, {'$push': {'downloads': current_photo}})
@@ -24,8 +23,22 @@ def download_photo(photo_id):
   else:
     return redirect(url_for('auth.login'))
 
-# @post.route('/like/<photo_id>', methods=['GET'])
-# def like_post(photo_id)
+@post.route('/like/<photo_id>', methods=['GET'])
+def like_post(photo_id):
+  if 'username' in session:
+    current_user = db.users.find_one({'username': session['username']})
+    current_photo = db.posts.find_one({'_id': ObjectId(photo_id)})
+    print(current_photo)
+    if current_photo:
+      # for liked in current_photo['likes']:
+      #   if liked['username'] == session['username']:
+      #     print('already liked by user')
+      #   return redirect(url_for('views.home'))
+      db.posts.update_one({'_id' : ObjectId(photo_id)}, {'$push': {'likes': current_user}})
+      db.posts.update_one({'_id' : ObjectId(photo_id)}, {'$inc': {'likes_count': 1}})
+      return redirect(url_for('views.home'))
+  else:
+    return redirect(url_for('auth.login'))
 
 @post.route('/delete/<photo_id>', methods=['POST'])
 def delete_photo(photo_id):

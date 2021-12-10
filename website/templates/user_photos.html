@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/"><img style="height: 24px;" src={{ url_for('static', filename='images/fotos-logo.png' ) }}/></a>
+        <a class="nav-link" href="/"><img style="height: 24px;" src={{ url_for('static', filename='fotos-logo.png' ) }}/></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="/">FEED</a>
@@ -49,16 +49,16 @@
         </div>
         <div style="display:flex; align-items: center;">
           <div style="display:flex; align-items: center; padding-left: 4px;">
-            <img style="height: 18px;" src={{ url_for('static', filename='images/clone.svg' ) }}/>
-            <span style="padding-left: 4px;">2</span>
+            <img style="height: 18px;" src={{ url_for('static', filename='clone.svg' ) }}/>
+            <span style="padding-left: 4px;">{{ photo.edits_count }}</span>
           </div>
           <div style="display:flex; align-items: center; padding-left: 4px;">
-            <img style="height: 18px;" src={{ url_for('static', filename='images/like.svg' ) }}/>
-            <span style="padding-left: 4px;">47</span>
+            <a href={{ url_for('post.like_post', photo_id=photo._id) }}><img style="height: 18px;" src={{ url_for('static', filename='like.svg' ) }}/></a>
+            <span style="padding-left: 4px;">{{ photo.likes_count }}</span>
           </div>
           <div style="display:flex; align-items: center; padding-left: 4px;">
-            <img style="height: 18px;" src={{ url_for('static', filename='images/comment.svg' ) }}/>
-            <span style="padding-left: 4px;">12</span>
+            <img style="height: 18px;" src={{ url_for('static', filename='comment.svg' ) }}/>
+            <span style="padding-left: 4px;">{{ photo.comments_count }}</span>
           </div>
         </div>
       </div>
